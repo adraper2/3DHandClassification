@@ -1,6 +1,6 @@
 from sklearn import svm
 
-class SVM(features, classes):
+class SVM:
 	def __init__(self, features, classes):
 		self.features = features
 		self.classes = classes
@@ -10,7 +10,7 @@ class SVM(features, classes):
 		self.clf = svm.SVC(kernel=k_type).fit(self.features, self.classes)
 		return clf
 
-	def predict(self, new_features)
+	def predict(self, new_features):
 		if self.clf != None:
 			return self.clf.predict(new_features)
 		else:
@@ -18,10 +18,11 @@ class SVM(features, classes):
 			exit(-1)
 
 def main():
-	my_feats = []
-	my_classes = []
-	my_clf = SVM(my_feats, my_classes)
-	my_clf.build(k_type='linear')
+	#my_feats = []
+	#my_classes = []
+	#my_clf = SVM(my_feats, my_classes)
+	#my_clf.build(k_type='linear')
+	print('code code code')
 
 
 if __name__ == '__main__':
