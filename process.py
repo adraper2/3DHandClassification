@@ -1,8 +1,10 @@
+# processes point clouds from SfM Colmap text files
+# the goal of this file is to create a mask to segment images for training
+
 import os
 import pandas as pd
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
-
 
 
 def plot3D(x_ls, y_ls, z_ls):
