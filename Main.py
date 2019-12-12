@@ -29,11 +29,18 @@ def frame_extraction(video):
 		cap.release()
 	#cv2.destroyAllWindows()
 
-def main():
+def data_prep(pose=None):
 	for vid in os.listdir('data'):
-		print(vid)
-		if "peace" in vid:
+		if pose:
+			if pose in vid:
+				frame_extraction(vid)
+		else:
 			frame_extraction(vid)
+
+
+def main():
+	data_prep('fist')
+			
 
 	# model = svm.SVM(my_feats, my_classes)
 
