@@ -1,7 +1,3 @@
 models/
-data/circle
-data/fist
-data/open
-data/peace
-data/shaka
+data/frames
 sfm_model
