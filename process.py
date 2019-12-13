@@ -17,7 +17,7 @@ def plot3D(x_ls, y_ls, z_ls):
 def main():
 	cloud_list = os.listdir('point_clouds')
 	#for ls in cloud_list:
-	ls = 'peace_points3D.txt'
+	ls = 'shaka_points3D.txt'
 	with open('point_clouds/'+ls) as f:
 		next(f)
 		next(f)
@@ -29,7 +29,7 @@ def main():
 	fig = plt.figure().gca(projection='3d')
 	fig.view_init(60, 150)
 	#fig.scatter(df['x'], df['y'], df['z'])
-	df=df[df['z'] > 15]
+	#df=df[df['z'] > 3]
 	print(df)
 	fig.scatter(df['x'], df['y'])
 	fig.set_xlabel('X')

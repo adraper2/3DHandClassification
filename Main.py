@@ -1,6 +1,7 @@
 import os
 import glob
 import cv2
+import features
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -12,6 +13,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import confusion_matrix
+from sklearn.metrics import precision_recall_fscore_support
 
 # select whether you would like every x frame or just the ones from a specific list
 skip_frames = 30
@@ -56,13 +58,36 @@ def data_prep(pose=None):
 		else:
 			frame_extraction(vid)
 
-
 def main():
+	
+	# data processing
+	#### uncomment this if data/frames contains no subfolders of poses and no frames for each pose ####
 	#data_prep()
-	features_df = np.load('features_df.npy') # make sure you run features.py first if this doesn't exist
-	labels = np.load('labels_df.npy') # make sure you run features.py first if this doesn't exist
-	print('Features df shape is: ', features_df.shape)
-	print("Number of labels for model:", len(labels), "(Should match first column of features_df)")
+
+	#feature selection
+	# try:
+	# 	features_df = features.get_features_list()
+	# 	np.save('features_df.npy', features_df)
+	
+	# 	labels = features.get_labels()
+	# 	np.save('labels_df.npy', labels)
+	
+	# 	print("\nFeatures and labels saved")
+	# except:
+	# 	print("Something went wrong with feature selection")
+
+	try:
+		labels
+		features
+	except NameError:
+		print("features do not exist right now, lets try loading them")
+		try:
+			features_df = np.load('features_df.npy') # make sure you run features.py first if this doesn't exist
+			labels = np.load('labels_df.npy') # make sure you run features.py first if this doesn't exist
+			print('Features df shape is: ', features_df.shape)
+			print("Number of labels for model:", len(labels), "(Should match first column of features_df)\n\n")
+		except:
+			print("labels.npy and/or features_dy.npy do not exist.\nRun features.py first.")
 
 	# get PCA for feature vectors
 	ss = StandardScaler() # Centers and scales each feature using mean and variance	
@@ -79,15 +104,20 @@ def main():
 
 	# final model output
 	accuracy = accuracy_score(y_test, predicted_labels)
-	print('Accuracy: ', accuracy)
+	print('Model accuracy: ', accuracy)
+	prf = precision_recall_fscore_support(y_test, predicted_labels, average = 'macro')
+	print("Model precision:", prf[0])
+	print("Model recall:", prf[1])
+	print("Model F-score:", prf[2])
 
 	df_confusion = pd.crosstab(y_test, predicted_labels, rownames=['Actual'], colnames=['Predicted'], margins=True)
 	df_confusion_norm = df_confusion / df_confusion.sum(axis=1)
-	print('\nConfision Matrix')
+	print('\nConfusion Matrix')
 	print(df_confusion)
-	print('\nNormalized Confision Matrix')
+	print('\nNormalized Confusion Matrix')
 	print(df_confusion_norm)
 
+	
 
 if __name__ == '__main__':
 	main()
